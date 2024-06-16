@@ -19,7 +19,8 @@ app.layout = html.Div(
     children=[
         html.H1(
             children="Avocado Analitics",
-            style={"fontSize": "48px", "color": "red"},
+            # style={"fontSize": "48px", "color": "red"},
+            className="header-title",
         ),
         html.P(
             children=(
