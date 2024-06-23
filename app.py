@@ -23,13 +23,15 @@ external_stylesheets = [
 # create instance of Dash (init app)
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Avocado Analytics: Understand Your Avocados!"
+# create layout for elements of dashboard
 app.layout = html.Div(
     children=[
         html.Div(
             children=[
                 html.P(children="🥑", className="header-emoji"),
                 html.H1(
-                    children="Avocado Analytics", className="header-title"
+                    children="Avocado Analytics",
+                    className="header-title"
                 ),
                 html.P(
                     children=(
@@ -41,29 +43,74 @@ app.layout = html.Div(
             ],
             className="header",
         ),
-        dcc.Graph(
-            figure={
-                "data": [
-                    {
-                        "x": data["Date"],
-                        "y": data["AveragePrice"],
-                        "type": "lines",
-                    },
-                ],
-                "layout": {"title": "Average Price of Avocados"},
-            },
-        ),
-        dcc.Graph(
-            figure={
-                "data": [
-                    {
-                        "x": data["Date"],
-                        "y": data["Total Volume"],
-                        "type": "Lines",
-                    },
-                ],
-                "layout": {"title": "Avocados Sold"},
-            },
+        html.Div(
+            children=[
+                html.Div(
+                    children=dcc.Graph(
+                        id="price-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    "x": data['Date'],
+                                    "y": data['AveragePrice'],
+                                    "type": "Lines",
+                                    "hovertemplate": (
+                                        "$%{y:.2f}<extra></extra>"
+                                    ),
+                                },
+                            ],
+                            "layout": {
+                                "title": {
+                                    "text": "Average Price of Avocados",
+                                    "x": 0.05,
+                                    "xanchor": "left",
+                                },
+                                "xaxis": {"fixedrange": True},
+                                "yaxis": {
+                                    "tickprefix": "$",
+                                    "fixedrange": True,
+                                },
+                                "colorway": ["#17b897"],
+                            },
+                        },
+                    ),
+                    className="card",
+                ),
+                html.Div(
+                    children=dcc.Graph(
+                        id="price-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    "x": data['Date'],
+                                    "y": data['Total Volume'],
+                                    "type": "Lines",
+                                    "hovertemplate": (
+                                        "$%{y:.2f}<extra></extra>"
+                                    ),
+                                },
+                            ],
+                            "layout": {
+                                "title": {
+                                    "text": "Avocados Sold",
+                                    "x": 0.05,
+                                    "xanchor": "left",
+                                },
+                                "xaxis": {"fixedrange": True},
+                                "yaxis": {
+                                    "tickprefix": "$",
+                                    "fixedrange": True,
+                                },
+                                "colorway": ["#17b897"],
+                            },
+                        },
+                    ),
+                    className="card",
+                ),
+            ],
+            className="wrapper",
         ),
     ]
 )
